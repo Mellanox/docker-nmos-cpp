@@ -17,16 +17,28 @@ RUN cd /home/mDNSResponder*/mDNSPosix && set HAVE_IPV6=0 && make os=linux && mak
 RUN mkdir /home/cpprestsdk-2.10.2-nmos-cpp/Release/build && \
     cd /home/cpprestsdk*/Release/build && \
     cmake .. \
-   -DCMAKE_BUILD_TYPE:STRING="Release" \
-   -DWERROR:BOOL="0" \
-   -DBOOST_INCLUDEDIR:PATH="/home/boost_1_67_0" \
-   -DBOOST_LIBRARYDIR:PATH="/home/boost_1_67_0/x64/lib" \
-   -DOPENSSL_ROOT_DIR="/usr/lib/x86_64-linux-gnu" \
-   -DOPENSSL_LIBRARIES="/usr/lib/x86_64-linux-gnu" && \
-   make && \
-   make install
+    -DCMAKE_BUILD_TYPE:STRING="Release" \
+    -DWERROR:BOOL="0" \
+    -DBOOST_INCLUDEDIR:PATH="/home/boost_1_67_0" \
+    -DBOOST_LIBRARYDIR:PATH="/home/boost_1_67_0/x64/lib" \
+    -DOPENSSL_ROOT_DIR="/usr/lib/x86_64-linux-gnu" \
+    -DOPENSSL_LIBRARIES="/usr/lib/x86_64-linux-gnu" && \
+    make && \
+    make install
 
 #Build nmos-cpp
-#RUN cd /home/nmos-cpp/Development && mkdir build && 
+RUN mkdir /home/cpprestsdk-2.10.2-nmos-cpp/Release/build && \
+    cd /home/cpprestsdk*/Release/build && \
+    cmake \
+    -G "Unix Makefiles" \
+    -DCMAKE_CONFIGURATION_TYPES:STRING="Debug;Release" \
+    -DBoost_USE_STATIC_LIBS:BOOL="1" \
+    -DBOOST_INCLUDEDIR:PATH="/home/boost_1_67_0" \
+    -DBOOST_LIBRARYDIR:PATH="./home/boost_1_67_0/x64/lib" \
+    -DWEBSOCKETPP_INCLUDE_DIR:PATH="/home/cpprestsdk-2.10.2-nmos-cpp/Release/libs/websocketpp" \
+    -DCPPREST_INCLUDE_DIR:PATH="/home/cpprestsdk-2.10.2-nmos-cpp/" \
+    -build /home/nmos-cpp/Development/build .. && \
+    make
+
 #WORKDIR /home/
 #CMD ["/home/emset.sh", "run"]
