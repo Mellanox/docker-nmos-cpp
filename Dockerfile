@@ -27,18 +27,23 @@ RUN mkdir /home/cpprestsdk-2.10.2-nmos-cpp/Release/build && \
     make install
 
 #Build nmos-cpp
-RUN mkdir /home/cpprestsdk-2.10.2-nmos-cpp/Release/build && \
-    cd /home/cpprestsdk*/Release/build && \
+RUN mkdir /home/nmos-cpp/Development/build && \
+    cd /home/nmos-cpp/Development/build && \
     cmake \
     -G "Unix Makefiles" \
     -DCMAKE_CONFIGURATION_TYPES:STRING="Debug;Release" \
     -DBoost_USE_STATIC_LIBS:BOOL="1" \
     -DBOOST_INCLUDEDIR:PATH="/home/boost_1_67_0" \
-    -DBOOST_LIBRARYDIR:PATH="./home/boost_1_67_0/x64/lib" \
+    -DBOOST_LIBRARYDIR:PATH="/home/boost_1_67_0/x64/lib" \
     -DWEBSOCKETPP_INCLUDE_DIR:PATH="/home/cpprestsdk-2.10.2-nmos-cpp/Release/libs/websocketpp" \
     -DCPPREST_INCLUDE_DIR:PATH="/home/cpprestsdk-2.10.2-nmos-cpp/" \
     -build /home/nmos-cpp/Development/build .. && \
     make
 
-#WORKDIR /home/
-#CMD ["/home/emset.sh", "run"]
+#Add Entrypoint.sh script to make container executable
+ADD entrypoint.sh /home/entrypoint.sh
+RUN chmod +x /home/entrypoint.sh
+
+WORKDIR /home/
+ENTRYPOINT ["/home/entrypoint.sh"]
+CMD []
