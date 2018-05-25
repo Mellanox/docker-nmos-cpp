@@ -5,11 +5,11 @@ if [ $# -eq 0 ]; then
 # You should use either Avahi or Apple mDNS - DO NOT use both
 #
 # mDNSResponder 878.30.4
-#   /etc/init.d/mdns start
+   /etc/init.d/mdns start
 
 # Avahi
-   /etc/init.d/dbus start
-   /etc/init.d/avahi-daemon start
+#   /etc/init.d/dbus start
+#   /etc/init.d/avahi-daemon start
 
 # Start Sony Registry Application inside correct directory
    sleep 1
@@ -18,7 +18,8 @@ if [ $# -eq 0 ]; then
    \"logging_port\": 5106, \"query_port\": 8870, \
    \"query_ws_port\": 8871, \"registration_port\": 8235, \
    \"node_port\": 8236, \"admin_port\": 3208, \"mdns_port\": 3214, \
-   \"registration_expiry_interval\": 12}" >/dev/null
+   \"registration_expiry_interval\": 12, \
+   \"access_log\": \"logreg-access.txt\"}" > /home/logreg-report.txt
 
    exit $?  # Make sure we really exit
 fi

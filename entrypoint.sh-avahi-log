@@ -18,7 +18,8 @@ if [ $# -eq 0 ]; then
    \"logging_port\": 5106, \"query_port\": 8870, \
    \"query_ws_port\": 8871, \"registration_port\": 8235, \
    \"node_port\": 8236, \"admin_port\": 3208, \"mdns_port\": 3214, \
-   \"registration_expiry_interval\": 12}" >/dev/null
+   \"registration_expiry_interval\": 12, \
+   \"access_log\": \"logreg-access.txt\"}" >/home/logreg-out.txt 2>/home/logreg-err.txt
 
    exit $?  # Make sure we really exit
 fi

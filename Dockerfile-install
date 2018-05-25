@@ -1,0 +1,19 @@
+FROM ubuntu:16.04
+
+#Trial mDNSResponder - not currently working
+#RUN apt-get update && apt-get install -y --no-install-recommends \
+#    openssl libssl-dev && rm -rf /var/lib/apt/lists/*
+#ADD mDNSResponder-package.tar.gz /
+
+#Using Avahi-Daemon/DBus
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dbus avahi-daemon openssl libssl-dev libavahi-compat-libdnssd-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+ADD nmos-cpp-executable.tar.gz entrypoint.sh /home/
+ADD nmos-cpp-libraries.tar.gz /usr/local/lib/
+RUN chmod +x /home/entrypoint.sh
+
+WORKDIR /home/
+#ENTRYPOINT ["/home/entrypoint.sh"]
+#CMD []

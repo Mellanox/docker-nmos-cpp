@@ -1,8 +1,7 @@
 FROM ubuntu:16.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    g++ build-essential openssl libssl-dev unzip git wget dbus avahi-daemon libavahi-compat-libdnssd-dev && \
-    rm -rf /var/lib/apt/lists/* && \
+    g++ build-essential openssl libssl-dev unzip git wget && rm -rf /var/lib/apt/lists/* && \
     apt-get clean -y --no-install-recommends
 
 ## Get and Make CMake version 3.11.2 (latest when Dockerfile developed) - Adjust as necessary
@@ -23,10 +22,10 @@ RUN cd /home/ && git init && git config --global http.sslVerify false && \
 ## You should use either Avahi or Apple mDNS - DO NOT use both
 ## 
 ## mDNSResponder 878.30.4
-#RUN cd /home/ && wget --no-check-certificate https://opensource.apple.com/tarballs/mDNSResponder/mDNSResponder-878.30.4.tar.gz && \
-#    tar xvf mDNSResponder-878.30.4.tar.gz && rm mDNSResponder-878.30.4.tar.gz && \
-#    patch -d mDNSResponder-878.30.4/ -p1 <nmos-cpp/Development/third_party/mDNSResponder/poll-rather-than-select.patch && \
-#    cd /home/mDNSResponder-878.30.4/mDNSPosix && set HAVE_IPV6=0 && make os=linux && make os=linux install
+RUN cd /home/ && wget --no-check-certificate https://opensource.apple.com/tarballs/mDNSResponder/mDNSResponder-878.30.4.tar.gz && \
+    tar xvf mDNSResponder-878.30.4.tar.gz && rm mDNSResponder-878.30.4.tar.gz && \
+    patch -d mDNSResponder-878.30.4/ -p1 <nmos-cpp/Development/third_party/mDNSResponder/poll-rather-than-select.patch && \
+    cd /home/mDNSResponder-878.30.4/mDNSPosix && set HAVE_IPV6=0 && make os=linux && make os=linux install
 
 #Get and Make Microsft C++ REST SDK v2.10.2 from Sony Archive
 RUN cd /home/ && wget --no-check-certificate https://github.com/garethsb-sony/cpprestsdk/archive/v2.10.2-nmos-cpp.zip && \
@@ -69,6 +68,6 @@ RUN cd /home/nmos-cpp/Development/build && \
 ADD entrypoint.sh /home/entrypoint.sh
 RUN chmod +x /home/entrypoint.sh
 
-#WORKDIR /home/
-#ENTRYPOINT ["/home/entrypoint.sh"]
-#CMD []
+WORKDIR /home/
+ENTRYPOINT ["/home/entrypoint.sh"]
+CMD []
